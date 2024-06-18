@@ -1,0 +1,35 @@
+package com.nc13.springBoard.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+// 우리가 해당 클래스를 스프링 프레임워크가 직접 생성/초기화를 할 수 있도록
+// 어노테이션을 붙여준다.
+// 해당 컨트롤러의 경우, 우리가 사용자가 특정 주소를 접속할 때에
+// 어느 페이지를 보여줄 지를 정해주므로 @Controller 라고 적어준다
+// 스프링이 controller 를 인식 할 수 있도록 import 해줌
+@Controller
+public class HomeController {
+    // 스프링은 URL 기반으로 특정 페이지의 실행 여부를 결정하게 된다.
+    // 따라서 우리가 사용자가 어떠한 URL 을 접속 했을때
+    // 어떤 메소드를 실행시킬지를 연결 (=mapping) 시켜주어야 한다.
+    // 매핑을 시키는 방법은
+    // 1. @RequestMapping(주소, 연결방식)
+    // 2. @GetMapping(주소)
+    // 3. @PostMapping(주소)
+    // 3가지가 있다.
+    // 예전에는 전부 리퀘스트매핑을 사용했었지만 이제는
+    // 겟매핑 혹은 포스트매핑 중 하나를 사용하게 된다.
+
+    // 맨 처음 인덱스 페이지를 보여주시 위한 페이지
+    @GetMapping("/")
+    public String showIndex() {
+        // 콘솔창에 출력
+        System.out.println("인덱스 페이지 접속 완료");
+
+        // 특정 페이지를 실행시키는 메소드는
+        // 해당 페이지의 폴더명 + 파일 이름을
+        // 리턴하게 된다.
+        return "index";
+    }
+}
