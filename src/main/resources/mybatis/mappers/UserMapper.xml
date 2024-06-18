@@ -3,11 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nc13.mappers.UserMapper">
-    <!-- 쿼리 종류 미리 설정해줌. 어떤 타입의 파라미터를 받아올지 어떤 클래스객체로 나오는지를 미리 설정해둠. -->
-    <select id="auth" parameterType="com.nc13.springBoard.model.UserDTO"
-            resultType="com.nc13.springBoard.model.UserDTO">
+    <!--
+    쿼리 종류 미리 설정해줌. 어떤 타입의 파라미터를 받아올지
+    어떤 클래스 객체로 나오는지를 미리 설정해둠.
+    -->
+    <select id="auth" parameterType="userDTO"
+            resultType="userDTO">
         SELECT * FROM user
         WHERE username = #{username} AND
         password = #{password}
     </select>
+    <select id="selectByUsername" parameterType="userDTO" resultType="userDTO">
+        SELECT * FROM user
+        WHERE username = #{username}
+    </select>
+    <insert id="register" parameterType="userDTO">
+        INSERT INTO user(username, password, nickname)
+        VALUES(#{username}, #{password}, #{nickname})
+    </insert>
 </mapper>

@@ -25,6 +25,9 @@ public class MyBatisConfig {
     // 같은 어노테이션을 붙여주지만 만약 스프링 프레임워크가 직접 관리해야할 객체들 중
     // 특수한 성격을 띄지 않거나 아니면 별개의 라이브러리 객체일 경우에는 우리가
     // @Bean 이라는 어노테이션을 붙여주게 된다.
+
+    // sql 에 필요한 설정 재료들을 미리 준비한게 sqlSessionFactory 가 된다.
+    // 개발자가 직접적으로 의존성을 주입해 줄때 사용하는 throw Exception을 사용하여 autowried 를 받음.
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -33,10 +36,10 @@ public class MyBatisConfig {
         Resource[] resources =
                 new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mappers/*.xml");
         sqlSessionFactoryBean.setMapperLocations(resources);
-
         return sqlSessionFactoryBean.getObject();
     }
 
+    //sqlSessionTemplate - 미리 설정 값으로 초기화 시켜줌. sqlSession 초기화
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory){
         return new SqlSessionTemplate(sqlSessionFactory);

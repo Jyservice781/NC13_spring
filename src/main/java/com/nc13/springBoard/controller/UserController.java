@@ -2,15 +2,18 @@ package com.nc13.springBoard.controller;
 
 import com.nc13.springBoard.model.UserDTO;
 import com.nc13.springBoard.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 // 전부 다 URL 이 로컬호스트 8080/user 하면 다 한곳으로 보내고 싶다.
-// requestMapping 으로 /user/ 라고 매핑해줌
+// requestMapping 으로 /user/ 라고 지정해줌
 @RequestMapping("/user/")
 @RequiredArgsConstructor
 
@@ -28,10 +31,14 @@ public class UserController {
 
     // 또한, 해당 name 어트리뷰트를 가진 클래스 객체를 파라미터로 잡아주면
     // 자동으로 데이터가 바인딩 된다.
-    public String auth(UserDTO userDTO) {
+    public String auth(UserDTO userDTO, HttpSession session) {
         // System.out.println("username: " + username + ", " + "password: " + password);
         UserDTO result = userService.auth(userDTO);
-        System.out.println(result);
+        if (result != null) {
+            session.setAttribute("logIn", result);
+            return "redirect:/board/showAll";
+        }
+
         // 데이터 정제하기 페이지 연결해주기
         // 이동할 페이지의 이름을 리턴하기 때문에 String 으로 값을 지정해줌.
         // 만약 우리가 해당 메소드를 실행시키고 나서 특정 URL 로 이동시킬 때에는 다음과 같이 적어준다.
@@ -40,4 +47,34 @@ public class UserController {
         // "/" 는 이동할 파일 위치를 표현한다.
         // redirect 는 URL 을 강제로 이동시킬때 사용한다.
     }
+
+    @GetMapping("register")
+    public String showRegister() {
+        return "user/register";
+    }
+
+    @PostMapping("register")
+    public String register(UserDTO userDTO, RedirectAttributes redirectAttributes) {
+        System.out.println(userDTO);
+        // 이미 존재하는 경우 회원가입이 되면 안됨 .
+        if (userService.validateUsername(userDTO)) {
+            userService.register(userDTO);
+        } else {
+            // 회원가입 실패 시 메시지 전송
+            // 회원가입 실패 시, 우리가 URL 을 /error 라는 곳으로 전송을 해주되 ,
+            // 해당 페이지에서 무슨 에러인지 알 수 있도록
+            // 메시지 내용을 여기서 담아서 보낸다.
+            // 만약 다른 URL 로 이동을 할 때 어떠한 값을 보내주어야 하는 경우
+
+            // RedirectAttributes 라는 것을 사용한다.
+            // addAttribute/ addFlashAttribute 차이점은
+            // flash 는 속성으로 세션에서 자동으로 삭제가 된다
+            redirectAttributes.addFlashAttribute("message", "중복된 아이디로는 가입하실 수 없습니다.");
+
+            return "redirect:/showMessage";
+        }
+
+        return "redirect:/";
+    }
+
 }

@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="main h-100">
         <form action="/user/auth" method="post">
-            <%-- user/auth 라는 곳에 post 방식으로 보내서 처리하겠다는 의미가 됨.--%>
+            <%-- user/auth 라는 곳에 post 방식으로 보내서 처리하겠다는 의미가 됨. -> PostMapping으로 받음--%>
             <div class="row justify-content-center">
                 <div class="col-4">
                     <label for="username">아이디</label>
@@ -23,12 +23,12 @@
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mt-5">
                 <div class="col-2 text-center">
                     <input type="submit" class="btn btn-outline-primary" value="로그인">
                 </div>
                 <div class="col-2 text-center">
-                    <a href="" class="btn btn-outline-secondary">회원가입</a>
+                    <a href="/user/register" class="btn btn-outline-secondary">회원가입</a>
                 </div>
             </div>
         </form>

@@ -3,5 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+    <typeAliases>
+        <typeAlias type="com.nc13.springBoard.model.UserDTO" alias="userDTO"/>
+    <!--
+    userDTO 를 사용하게 되면 앞으로 model.UserDTO 를 가져올 수 있도록 선언해둠.
+    미리 별명을 설정
+   -->
+        <typeAlias type="com.nc13.springBoard.model.BoardDTO" alias="boardDTO"/>
+    </typeAliases>
 </configuration>
