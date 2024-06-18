@@ -44,6 +44,7 @@ public class UserController {
         // 만약 우리가 해당 메소드를 실행시키고 나서 특정 URL 로 이동시킬 때에는 다음과 같이 적어준다.
 
         return "redirect:/";
+        ///
         // "/" 는 이동할 파일 위치를 표현한다.
         // redirect 는 URL 을 강제로 이동시킬때 사용한다.
     }
