@@ -5,5 +5,23 @@
 <mapper namespace="com.nc13.mappers.BoardMapper">
     <select id="selectAll" resultType="boardDTO">
         SELECT * FROM board
+        INNER JOIN user
+        ON board.writer_id = user.id
+        ORDER BY board.id DESC
+    </select>
+
+    <insert id="insert" parameterType="boardDTO">
+        INSERT INTO board(title, content, writer_id)
+        VALUES(#{title}, #{content}, #{writerId})
+    </insert>
+
+<!--    parameterType -> 받아오는 값의 데이터 타입
+        resultType -> 내보낼 값의 데이터 타입을 의미함.
+-->
+    <select id="selectOne" parameterType="int" resultType="boardDTO">
+        SELECT * FROM board
+        INNER JOIN user
+        ON board.writer_id = user.id
+        WHERE board.id = #{id}
     </select>
 </mapper>

@@ -3,12 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--
+    DB 상의 _ 표기를 camelCase 로 인식할 수 있도록 settings 처리함.
+    카멜케이스 표기법을 인식하지 못하는 상황 -> alias 를 다 설정하기에는 DTO 의 갯수가 많아서
+    alias 를 각각 주기에는 코드가 불필요하게 길어짐.
+    settings 는 configuration 안에서 가장 최상단에 위치해 있어야 하는 성질임.
+    -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
     <typeAliases>
         <typeAlias type="com.nc13.springBoard.model.UserDTO" alias="userDTO"/>
-    <!--
-    userDTO 를 사용하게 되면 앞으로 model.UserDTO 를 가져올 수 있도록 선언해둠.
-    미리 별명을 설정
-   -->
+        <!--
+        userDTO 를 사용하게 되면 앞으로 model.UserDTO 를 가져올 수 있도록 선언해둠.
+        미리 별명을 설정
+         -->
         <typeAlias type="com.nc13.springBoard.model.BoardDTO" alias="boardDTO"/>
     </typeAliases>
 </configuration>
