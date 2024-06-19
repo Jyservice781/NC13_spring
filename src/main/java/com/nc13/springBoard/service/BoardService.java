@@ -17,16 +17,27 @@ public class BoardService {
     @Autowired
     private SqlSession session;
 
-    public List<BoardDTO> selectAll(){
+    public List<BoardDTO> selectAll() {
         return session.selectList(NAMESPACE + ".selectAll");
     }
 
-    public void insert(BoardDTO boardDTO){
+    public void insert(BoardDTO boardDTO) {
+        System.out.println("insert전 boardDTO: " + boardDTO);
         session.insert(NAMESPACE + ".insert", boardDTO);
+        System.out.println("insert후 boardDTO: " + boardDTO);
     }
 
-    public BoardDTO selectOne(int id){
+    public BoardDTO selectOne(int id) {
         return session.selectOne(NAMESPACE + ".selectOne", id);
     }
+
+    public void update(BoardDTO attempt) {
+        session.update(NAMESPACE + ".update", attempt);
+    }
+
+    public void delete(int id) {
+        session.delete(NAMESPACE + ".delete", id);
+    }
+
 
 }

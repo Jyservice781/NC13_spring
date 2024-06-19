@@ -42,11 +42,16 @@
                 <c:if test="${boardDTO.writerId eq logIn.id}">
                     <tr class="text-center">
                         <td class="text-center" colspan="3">
-                            <a class="btn btn-outline-success">수정하기</a>
-                            <a class="btn btn-outline-danger">삭제하기</a>
+                            <a class="btn btn-outline-success" href="/board/update/${boardDTO.id}">수정하기</a>
+                            <a class="btn btn-outline-danger" href="/board/delete/${boardDTO.id}">삭제하기</a>
                         </td>
                     </tr>
                 </c:if>
+                <tr>
+                    <td colspan="3" class="text-center">
+                        <a class="btn btn-outline-secondary" href="/board/showAll">목록으로</a>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
