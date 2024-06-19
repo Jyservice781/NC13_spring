@@ -1,4 +1,6 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>--%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@page language="java" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -31,6 +33,20 @@
                     <th>수정일</th>
                     <td><fmt:formatDate value="${boardDTO.modifyDate}" pattern="yyyy년 MM월 dd일 E요일 HH시 mm분 ss초"/></td>
                 </tr>
+                <tr>
+                    <th colspan="2">내용</th>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">${boardDTO.content}</td>
+                </tr>
+                <c:if test="${boardDTO.writerId eq logIn.id}">
+                    <tr class="text-center">
+                        <td class="text-center" colspan="3">
+                            <a class="btn btn-outline-success">수정하기</a>
+                            <a class="btn btn-outline-danger">삭제하기</a>
+                        </td>
+                    </tr>
+                </c:if>
             </table>
         </div>
     </div>
