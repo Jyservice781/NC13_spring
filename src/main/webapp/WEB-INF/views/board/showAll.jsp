@@ -48,6 +48,45 @@
                             <td><fmt:formatDate value="${b.entryDate}" pattern="yyMMdd HH:mm:ss"/></td>
                         </tr>
                     </c:forEach>
+                    <!--  pagination  -->
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a class="page-link" href="/board/showAll/1"> << </a>
+                                </li>
+
+                                <c:if test="${curPage > 5}">
+                                    <li class="page-item">
+                                        <a href="/board/showAll/${curPage - 5}" class="page-link"> < </a>
+                                    </li>
+                                </c:if>
+                                <c:forEach var="page" begin="${startPage}" end="${endPage}">
+                                    <c:choose>
+                                        <c:when test="${page eq curPage}">
+                                            <li class="page-item">
+                                                <span class="page-link active" aria-current="page">${page}</span>
+                                            </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li class="page-item">
+                                                <a href="/board/showAll/${page}" class="page-link">${page}</a>
+                                            </li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                                <c:if test="${curPage < (maxPage - 5)}">
+                                    <li class="page-item">
+                                        <a href="/board/showAll/${curPage + 5}" class="page-link"> > </a>
+                                    </li>
+                                </c:if>
+                                <li class="page-item">
+                                    <a href="/board/showAll/${maxPage}" class="page-link"> >> </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <!-- pagination -->
                 </table>
             </div>
         </div>

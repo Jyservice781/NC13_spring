@@ -1,8 +1,10 @@
 package com.nc13.springBoard.controller;
 
 import com.nc13.springBoard.model.BoardDTO;
+import com.nc13.springBoard.model.ReplyDTO;
 import com.nc13.springBoard.model.UserDTO;
 import com.nc13.springBoard.service.BoardService;
+import com.nc13.springBoard.service.ReplyService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,17 +22,70 @@ import java.util.List;
 public class BoardController {
     @Autowired
     private BoardService boardService;
-
+    @Autowired
+    private ReplyService replyService;
 
     @GetMapping("showAll")
-    public String showAll(HttpSession session, Model model) {
+    public String moveToFirstPage(){
+        return "redirect:/board/showAll/1";
+    }
+
+    @GetMapping("showAll/{pageNo}")
+    public String showAll(HttpSession session, Model model, @PathVariable int pageNo) {
         UserDTO logIn = (UserDTO) session.getAttribute("logIn");
         if (logIn == null) {
             return "redirect:/";
         }
 
-        List<BoardDTO> list = boardService.selectAll();
+        //가장 마지막 페이지의 번호
+        int maxPage = boardService.selectMaxPage();
+        model.addAttribute("maxPage", maxPage);
+
+        // 우리가 이제 pageNo 를 사용하여
+        // 시작 페이지 번호와
+        // 끝 페이지 번호
+        // 를 계산해 주어야 한다.
+        // 이때에는 크게 3가지가 있다.
+
+        // 1. 현재 페이지가 3 이하일 경우
+        // 시작: 1, 끝: 5
+
+        // 2. 현재 페이지가 최대 페이지 -2 이상일 경우
+        // 시작: 최대페이지 -4, 끝: 최대페이지
+        // DB 한테 물어봐야함- > service, mapper
+
+        // 3. 그외
+        // 시작: 현재페이지-2 끝: 현재페이지 + 2
+
+        // 시작 페이지
+        int startPage;
+
+        // 끝 페이지
+        int endPage;
+
+
+        if(maxPage < 5){
+            startPage = 1;
+            endPage = maxPage;
+        } else if (pageNo <= 3) {
+            startPage = 1;
+            endPage = 5;
+        } else if (pageNo >= maxPage - 2) {
+            startPage = maxPage - 4;
+            endPage = maxPage;
+        } else {
+            startPage = pageNo - 2;
+            endPage = pageNo + 2;
+        }
+
+        model.addAttribute("curPage", pageNo);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        // List<BoardDTO> list = boardService.selectAll();
+        List<BoardDTO> list = boardService.selectAll(pageNo);
         model.addAttribute("list", list);
+
 
         return "board/showAll";
     }
@@ -73,7 +128,10 @@ public class BoardController {
             return "redirect:/showMessage";
         }
 
+        List<ReplyDTO> replyList = replyService.selectAll(id);
+
         model.addAttribute("boardDTO", boardDTO);
+        model.addAttribute("replyList", replyList);
 
         return "/board/showOne";
     }
@@ -167,8 +225,18 @@ public class BoardController {
         }
 
         return "redirect:/board/showAll";
+
+
+
+        300 개의 게시글이 있을 경우 만약 총 15개의 페이지로 나눈다면 한페이지에 들어가는 글의 갯수 20개
+        147개 있으면 나오는 총 페이지의 갯수는?
+        8개의 페이지가 나와야 함.
+
+        << < 1 2 [3] 4 5 > >>
+        <<, >> : 맨앞, 뒤로
+        <, > : 특정 단위 갯수만큼 앞, 뒤로
+        []: 현재 보고 있는 페이지
     }
     */
-
 
 }

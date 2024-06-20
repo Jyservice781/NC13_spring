@@ -19,5 +19,6 @@
         미리 별명을 설정
          -->
         <typeAlias type="com.nc13.springBoard.model.BoardDTO" alias="boardDTO"/>
+        <typeAlias type="com.nc13.springBoard.model.ReplyDTO" alias="replyDTO"/>
     </typeAliases>
 </configuration>
