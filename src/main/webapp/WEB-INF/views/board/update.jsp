@@ -5,7 +5,6 @@
 <head>
     <title>${boardDTO.id}번 게시글 수정하기</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -14,7 +13,8 @@
             <div class="row justify-content-center mb-3">
                 <div class="col-6">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="input_title" name="title" placeholder="title" value="${boardDTO.title}">
+                        <input type="text" class="form-control" id="input_title" name="title" placeholder="title"
+                               value="${boardDTO.title}">
                         <label for="input_title">title</label>
                     </div>
                 </div>
@@ -34,5 +34,18 @@
         </div>
     </form>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor.create(
+        document.querySelector('#input_content')
+    ).catch(error => {
+        console.log(error)
+    })
+
+
+</script>
+
 </body>
 </html>

@@ -43,7 +43,7 @@
                     <tr class="text-center">
                         <td class="text-end" colspan="3">
                             <a class="btn btn-outline-success" href="/board/update/${boardDTO.id}">수정하기</a>
-                            <a class="btn btn-outline-danger" href="/board/delete/${boardDTO.id}">삭제하기</a>
+                            <button class="btn btn-outline-danger" onclick="deleteBoard(${boardDTO.id})">삭제하기</button>
                         </td>
                     </tr>
                 </c:if>
@@ -111,9 +111,21 @@
                     </form>
                 </tr>
             </table>
-
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function deleteBoard(id) {
+        console.log(id);
+        Swal.fire({
+           title: "정말로 삭제?",
+            showCancelButton: true,
+            confirmButtonText: "삭제하기"
+
+        });
+    }
+
+</script>
 </body>
 </html>
