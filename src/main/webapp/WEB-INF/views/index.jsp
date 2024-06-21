@@ -7,6 +7,11 @@
 <body>
 <div class="container-fluid">
     <div class="main h-100">
+        <div class="row justify-content-center">
+            <div class="col-7">
+                <img src="/uploads/LEGO_logo.svg.png" alt="이미지로고" style="width:80px; height:auto;">
+            </div>
+        </div>
         <form action="/user/auth" method="post">
             <%-- user/auth 라는 곳에 post 방식으로 보내서 처리하겠다는 의미가 됨. -> PostMapping으로 받음--%>
             <div class="row justify-content-center">

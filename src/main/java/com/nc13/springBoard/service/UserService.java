@@ -40,8 +40,8 @@ public class UserService {
     }
 
     // 회원가입을 했을때 null 이 리턴 되도록 함.
-    public boolean validateUsername(UserDTO attempt){
-        return SESSION.selectOne(NAMESPACE + ".selectByUsername", attempt) == null;
+    public boolean validateUsername(String username){
+        return SESSION.selectOne(NAMESPACE + ".selectByUsername", username) == null;
     }
 
     public void register(UserDTO attempt){

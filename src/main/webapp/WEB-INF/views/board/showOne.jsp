@@ -121,9 +121,39 @@
         Swal.fire({
            title: "정말로 삭제?",
             showCancelButton: true,
-            confirmButtonText: "삭제하기"
-
+            confirmButtonText: "삭제하기",
+            cancelButtonText: "취소",
+            icon:'warning'
+        }).then((result) => {
+            if(result.isConfirmed){
+                Swal.fire({
+                    title:'삭제됨.'
+                }).then((result) => {
+                    location.href='/board/delete/'+id;
+                })
+            }
         });
+
+        // 화살표 함수
+
+        // 화살표 함수란, 우리가 함수의 선언식 없이
+        // 해당 함수가 필요로 하는 파라미터만 선언하여 사용하는
+        // 함수를 화살표 함수라고 한다.
+        // 또는 익명함수라고 한다.
+        // 사용방법은
+
+        // (파라미터) => {
+        //     함수의 내용
+        // }
+        // 이 된다.
+        //예시
+        let sample = {
+            "id": '1',
+            'name': '조',
+            'printInfo':(id, name) => {
+                console.log(id, name);
+            }
+        }
     }
 
 </script>
