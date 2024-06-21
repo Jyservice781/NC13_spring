@@ -6,7 +6,8 @@
 </head>
 <body>
 <div class="container-fluid">
-    <form>
+    <%--  여러파트로 나눠서 업로드 할때 multipart 라고 반드시 명시를 해줘야함. enctype="multipart/form-data" --%>
+    <form method="post" action="/board/write" enctype="multipart/form-data">
         <div class="table">
             <div class="row justify-content-center mb-3">
                 <div class="col-6">
@@ -25,13 +26,15 @@
             <div class="row justify-content-center">
                 <div class="col-6">
                     <label for="input_file">첨부 파일</label>
-                    <input type="file" class="form-control" id="input_file" name="file">
+                    <%--  <input type="file" class="form-control" id="input_file" name="file">--%>
+                    <input type="file" class="form-control" id="input_file" name="file" multiple>
+                    <%-- multiple 속성이 있으면 여러개의 파일업로드가 가능하다--%>
                 </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <a class="btn btn-outline-primary w-100" onclick="writeBoard()">작성하기</a>
+                    <input type="submit" class="btn btn-outline-primary w-100" value="작성하기">
                 </div>
             </div>
         </div>
@@ -47,34 +50,6 @@
         .catch(error => {
             console.log(error)
         })
-
-    function writeBoard(){
-        let data = new FormData();
-        // post 방식으로 ajax 로 컨트롤러로 보내줄거임
-        // form 데이터로 묶어서 보내줘야함.
-
-        data.append('title', $('#input_title').val());
-        data.append('content', $('#input_content').val());
-        data.append('file', $('#input_file')[0]);
-
-        $.ajax({
-            url: '/board/write',
-            type: 'post',
-            // JSON 형태로 변환해서 보내는 것
-            data: JSON.stringify(data),
-            // 통째로, 여러파트로 나눠서 보내는 타입.
-            // 여러파트를 한 꺼번에 보여주기 위해서
-            enctype: 'multipart/form-data',
-            contentType: false,
-            processData: false,
-            success:(result) => {
-                console.log(result);
-            },
-            fail: (result) => {
-                console.log(result);
-            }
-        })
-    }
 
 </script>
 </body>
