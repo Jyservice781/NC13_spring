@@ -12,12 +12,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
 import java.net.http.HttpRequest;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/board/")
@@ -144,7 +150,7 @@ public class BoardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //boardService.insert(boardDTO);
+        boardService.insert(boardDTO);
 
         return "redirect:/board/showOne/" + boardDTO.getId();
     }
@@ -273,5 +279,50 @@ public class BoardController {
         []: 현재 보고 있는 페이지
     }
     */
+
+    // 일반 컨트롤러 안에
+    // Restful API 로써, JSON 의 결과값을 리턴해야하는 경우
+    // 맵핑 어노테이션 위에 ResponseBody 어노테이션을 붙여준다.
+    @ResponseBody
+    @PostMapping("uploads")
+    public Map<String, Object> uploads(MultipartHttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String uploadPath = "";
+
+        MultipartFile file = request.getFile("upload");
+        // 덮어 씌워질 위험을 막는 방법 -> 업로드의 이름을 고유하게 랜덤으로 바꾸면 됨
+        String fileName = file.getOriginalFilename();
+        // extension == 파일 확장자 찾아내느 코드.
+        String extension = fileName.substring(fileName.lastIndexOf("."));
+        //UUID
+        String uploadName = UUID.randomUUID() + extension;
+        // 지금 현재 돌아가고 있는 톰켓의 리얼 주소를 찾는 매서드임.
+        String realPath = request.getServletContext().getRealPath("/board/uploads/");
+        Path realDir = Paths.get(realPath);
+
+        if(!Files.exists(realDir)){
+            try{
+                Files.createDirectories(realDir);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        File uploadFile = new File(realPath + uploadName);
+        try{
+            file.transferTo(uploadFile);
+        } catch (IOException e){
+            System.out.println("파일 전송 중 에러");
+            e.printStackTrace();
+        }
+
+        uploadPath = "/board/uploads/" + uploadName;
+
+        resultMap.put("uploaded", true);
+        resultMap.put("url", uploadPath);
+        // string 이 그대로 리턴됨.
+        return resultMap;
+    }
 
 }
