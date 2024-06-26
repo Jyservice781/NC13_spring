@@ -145,7 +145,6 @@ public class BoardController {
             for(MultipartFile mf : file){
                 File f = new File(path, mf.getOriginalFilename());
                 mf.transferTo(f);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
