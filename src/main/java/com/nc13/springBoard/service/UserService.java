@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     // 스프링 프레임워크가 관리하고 있는 객체를 불러올 때에는
-    // @Autowired 라고 적어주게 된다. -> 의존성을 주입함 sqlSession 을 불러옴.
+    // @Autowired 라고 적어주게 된다.
+    // -> 의존성을 주입함 sqlSession 을 불러옴.
     @Autowired
     private final SqlSession SESSION;
 

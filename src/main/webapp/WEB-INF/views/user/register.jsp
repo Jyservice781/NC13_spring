@@ -97,8 +97,6 @@
     function disableButton(){
         $('#btnSubmit').attr('disabled', 'true');
     }
-
-
 </script>
 
 </body>

@@ -35,6 +35,8 @@ public class BoardService {
         // Map 을 넘겨주어도 됨.
         //https://lordofkangs.tistory.com/78
 
+        // hashMap 을 사용하여 String, Integer 의 키와 벨류값을 저장하고
+        // 저장이 완료되면 리턴한다.
         HashMap<String, Integer> paraMap = new HashMap<>();
         paraMap.put("startRow", (pageNo - 1) * PAGE_SIZE);
         paraMap.put("size", PAGE_SIZE);
@@ -70,9 +72,6 @@ public class BoardService {
         if (maxRow % PAGE_SIZE != 0) {
             maxPage++;
         }
-
         return maxPage;
     }
-
-
 }

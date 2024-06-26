@@ -30,7 +30,7 @@ public class UserRestController {
 
         // resultMap.put("result", "success");
         // resultMap.put("message", "Message From Rest Controller");
-        //JSON 형식으로 처리하면 간편하게 중복아이디 확인할 수 있음.
+        // JSON 형식으로 처리하면 간편하게 중복아이디 확인할 수 있음.
 
         return resultMap;
     }

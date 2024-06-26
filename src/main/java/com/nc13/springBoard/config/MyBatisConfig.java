@@ -27,7 +27,7 @@ public class MyBatisConfig {
     // @Bean 이라는 어노테이션을 붙여주게 된다.
 
     // sql 에 필요한 설정 재료들을 미리 준비한게 sqlSessionFactory 가 된다.
-    // 개발자가 직접적으로 의존성을 주입해 줄때 사용하는 throw Exception을 사용하여 autowried 를 받음.
+    // 개발자가 직접적으로 의존성을 주입해 줄때 사용하는 throw Exception 을 사용하여 autoWried 를 받음.
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
