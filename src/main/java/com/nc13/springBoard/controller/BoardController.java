@@ -111,11 +111,11 @@ public class BoardController {
         if (logIn == null) {
             return "redirect:/";
         }
-        // 어디에 저장을 해줄지 지정을 해야함. c: 에 강제로 들어가게 처리를 해줌.
         boardDTO.setWriterId(logIn.getId());
 
+        // 어디에 저장을 해줄지 지정을 해야함. c: 에 강제로 들어가게 처리를 해줌.
         String path = "c:\\uploads\\a\\bb\\cc";
-        // mkdirs()는 만약 경로가 복잡하면 c:\\uploads\\a\\b\\c 라면 a> B> C 의 형가 됨.
+        // mkdirs()는 만약 경로가 복잡하면 c:\\uploads\\a\\b\\c 라면 a> B> C 의 형태가 됨.
 
         new File(path).mkdirs();
         File pathDir = new File(path);
@@ -270,5 +270,6 @@ public class BoardController {
         []: 현재 보고 있는 페이지
     }
     */
+
 
 }
