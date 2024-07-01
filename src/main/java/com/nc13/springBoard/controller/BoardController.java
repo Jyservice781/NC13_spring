@@ -12,12 +12,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
 import java.net.http.HttpRequest;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/board/")
@@ -270,6 +276,47 @@ public class BoardController {
         []: 현재 보고 있는 페이지
     }
     */
+
+
+    // 일반 컨트롤러 안에
+    // Restful API로써, JSON의 결과값을 리턴해야하는 경우
+    // 맵핑 어노테이션 위에 ResponseBody 어노테이션을 붙여준다.
+    @ResponseBody
+    @PostMapping("uploads")
+    public Map<String, Object> uploads(MultipartHttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String uploadPath = "";
+
+        MultipartFile file = request.getFile("upload");
+        String fileName = file.getOriginalFilename();
+        String extension = fileName.substring(fileName.lastIndexOf("."));
+        String uploadName = UUID.randomUUID() + extension;
+
+        String realPath = request.getServletContext().getRealPath("/board/uploads/");
+        Path realDir = Paths.get(realPath);
+        if (!Files.exists(realDir)) {
+            try {
+                Files.createDirectories(realDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        File uploadFile = new File(realPath + uploadName);
+        try {
+            file.transferTo(uploadFile);
+        } catch (IOException e) {
+            System.out.println("파일 전송 중 에러");
+            e.printStackTrace();
+        }
+
+        uploadPath = "/board/uploads/" + uploadName;
+
+        resultMap.put("uploaded", true);
+        resultMap.put("url", uploadPath);
+        return resultMap;
+    }
 
 
 }
