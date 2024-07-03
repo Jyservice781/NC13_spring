@@ -22,14 +22,10 @@ public class UserDTO implements UserDetails {
     // 권한설정 방법
     @Override
     public List<GrantedAuthority> getAuthorities() {
+        authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
         return authorities;
     }
-    //  추가적인 권한 설정 가능
-    public void setAuthorities(String authority){
-        if(this.authorities == null){
-            this.authorities = new ArrayList<>();
-        }
-        this.authorities.add(new SimpleGrantedAuthority(authority));
-    }
+    //  추가적인 권한 설정 가능 setGetAuthorities 로 가능함.
 
 }

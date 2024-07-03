@@ -31,12 +31,13 @@ public class SecurityConfig {
                         // ** - web-inf 안의 하위 폴더들과 그안의 파일들 까지 다 가져옴
                 // localhost:8080/user/.... 이거나 localhost:8080/ 은 누구든 접근 가능을 설정
                 .requestMatchers("/","/user/*").permitAll()
-                .requestMatchers("/board/write").hasAnyRole("ADMIN")
+                .requestMatchers("/board/write").hasAnyAuthority("ROLE_ADMIN")
                  //만약 여러개를 설정하려면 .requestMatchers("/board/write").hasAnyRole("ADMIN", "USER")
                 // board/write 는 ADMIN 역할을 가진 사용자만 접근 가능
                 // 위의 경우가 아닌 모든 URL 은 로그인한 사용자만 접근 가능하다
                 .anyRequest().authenticated()
-                )//-> anyRequest 의 기능이 모든 하위 링크들을 접근가능하게 하면서 에러를 나게 한다.
+                )
+                //-> anyRequest 의 기능이 모든 하위 링크들을 접근가능하게 하면서 에러를 나게 한다.
                 // 내가 쓰고 싶은 폼을 등록시켜줌.
                 .formLogin((formLogIn) -> formLogIn
                         // 로그인에서 사용할 페이지 설정
