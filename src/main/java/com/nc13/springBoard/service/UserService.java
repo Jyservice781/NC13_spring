@@ -11,7 +11,6 @@ package com.nc13.springBoard.service;
 import com.nc13.springBoard.model.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // 서비스의 경우, 스프링 프레임워크가 직접 관리 할 수 있도록
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
     // 스프링 프레임워크가 관리하고 있는 객체를 불러올 때에는
     // @Autowired 라고 적어주게 된다. -> 의존성을 주입함 sqlSession 을 불러옴.
-    @Autowired
     private final SqlSession SESSION;
 
     private final String NAMESPACE = "com.nc13.mappers.UserMapper";
@@ -43,6 +41,12 @@ public class UserService {
     public boolean validateUsername(String username){
         return SESSION.selectOne(NAMESPACE + ".selectByUsername", username) == null;
     }
+
+    // security
+    public UserDTO selectByUsername(String username){
+        return SESSION.selectOne(NAMESPACE + ".selectByUsername", username);
+    }
+
 
     public void register(UserDTO attempt){
         SESSION.insert(NAMESPACE + ".register", attempt);

@@ -5,6 +5,7 @@ import com.nc13.springBoard.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // 회원가입 할때 비밀번호에 암호화를 해줌.
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     // 사용자가 로그인을 할 시 실행할
     // auth 메소드
     @PostMapping("auth")
@@ -32,7 +37,9 @@ public class UserController {
     // 또한, 해당 name 어트리뷰트를 가진 클래스 객체를 파라미터로 잡아주면
     // 자동으로 데이터가 바인딩 된다.
     public String auth(UserDTO userDTO, HttpSession session) {
+        System.out.println("userController.auth()");
         // System.out.println("username: " + username + ", " + "password: " + password);
+        // 위의 코드를 간략히
         UserDTO result = userService.auth(userDTO);
         if (result != null) {
             session.setAttribute("logIn", result);
@@ -58,6 +65,7 @@ public class UserController {
     public String register(UserDTO userDTO, RedirectAttributes redirectAttributes) {
         // 이미 존재하는 경우 회원가입이 되면 안됨 . => !!!!!--json--!!!!! 형식으로 업그레이드 2
         if (userService.validateUsername(userDTO.getUsername())) {
+            userDTO.setPassword(encoder.encode(userDTO.getPassword()));
             userService.register(userDTO);
         } else {
             // 회원가입 실패 시 메시지 전송

@@ -6,8 +6,9 @@ import com.nc13.springBoard.model.UserDTO;
 import com.nc13.springBoard.service.BoardService;
 import com.nc13.springBoard.service.ReplyService;
 import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
-import java.net.http.HttpRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,7 @@ public class BoardController {
     }
 
     @GetMapping("showAll/{pageNo}")
-    public String showAll(HttpSession session, Model model, @PathVariable int pageNo) {
-        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
-        if (logIn == null) {
-            return "redirect:/";
-        }
-
+    public String showAll(Model model, @PathVariable int pageNo, HttpSession session) {
         //가장 마지막 페이지의 번호
         int maxPage = boardService.selectMaxPage();
         model.addAttribute("maxPage", maxPage);
@@ -100,28 +96,24 @@ public class BoardController {
 
 
     @GetMapping("write")
-    public String showWrite(HttpSession session) {
-        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
-        if (logIn == null) {
-            return "redirect:/";
-        }
+    public String showWrite() {
         return "board/write";
     }
 
     //우리가 주소창에 있는 값을 매핑해줄 수 있다.
 
     // @ResponseBody
-    // MultipartFile file로 바인딩을 한다.
+    // MultipartFile file 로 바인딩을 한다.
     @PostMapping("write")
-    public String write(HttpSession session, BoardDTO boardDTO, MultipartFile[] file) {
-        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
-
-        if (logIn == null) {
-            return "redirect:/";
-        }
-        // 어디에 저장을 해줄지 지정을 해야함. c: 에 강제로 들어가게 처리를 해줌.
+    public String write(BoardDTO boardDTO, Authentication authentication) {
+        UserDTO logIn = (UserDTO) authentication.getPrincipal();
         boardDTO.setWriterId(logIn.getId());
+        boardService.insert(boardDTO);
 
+        return "redirect:/board/showOne/" + boardDTO.getId();
+
+        /*
+        // 어디에 저장을 해줄지 지정을 해야함. c: 에 강제로 들어가게 처리를 해줌.
         String path = "c:\\uploads\\a\\bb\\cc";
         // mkdirs()는 만약 경로가 복잡하면 c:\\uploads\\a\\b\\c 라면 a> B> C 의 형가 됨.
 
@@ -132,7 +124,7 @@ public class BoardController {
         // 만들지 못하도록 if 문으로 지정함.
         if(!pathDir.exists()){
             pathDir.mkdir();
-        }
+        }*/
 
         // App data 는 사람이 직접 접근을 해서는 안되는 파일 중에 하나임.
         // file 을 다른 서버에 업로드하고 내가 원하는 경로를 새로 파서 다운해주는 방식
@@ -141,17 +133,15 @@ public class BoardController {
 
         // MultipartFile 라이브러리에서 지원하는 기능
         // transferTo을 사용하여 파일의 위치를 바꿔줌.
-        try {
+        /* try {
             for(MultipartFile mf : file){
                 File f = new File(path, mf.getOriginalFilename());
                 mf.transferTo(f);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        boardService.insert(boardDTO);
+        }*/
 
-        return "redirect:/board/showOne/" + boardDTO.getId();
     }
 
     @GetMapping("showOne/{id}")
