@@ -7,8 +7,7 @@
     쿼리 종류 미리 설정해줌. 어떤 타입의 파라미터를 받아올지
     어떤 클래스 객체로 나오는지를 미리 설정해둠.
     -->
-    <select id="auth" parameterType="userDTO"
-            resultType="userDTO">
+    <select id="auth" parameterType="userDTO" resultType="userDTO">
         SELECT * FROM user
         WHERE username = #{username} AND
         password = #{password}

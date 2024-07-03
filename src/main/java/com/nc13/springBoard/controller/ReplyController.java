@@ -80,7 +80,7 @@ public class ReplyController {
             return "redirect:/";
         }
 
-        ReplyDTO  selectID = replyService.selectOne(id);
+        ReplyDTO selectID = replyService.selectOne(id);
 
         if(selectID == null){
             redirectAttributes.addFlashAttribute("message", "잘못된 번호입니다.");

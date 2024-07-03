@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 // requestMapping 으로 /user/ 라고 지정해줌
 @RequestMapping("/user/")
 @RequiredArgsConstructor
-
 public class UserController {
     // 실제 SQL 통신을 담당할 Service 객체
     @Autowired

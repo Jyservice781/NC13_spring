@@ -11,7 +11,7 @@
         Limit 쿼리에 어떤 값을 넣을 때에는 '' 으로 감싸면 에러가 난다. -> ${}
       -->
 
-    <select id="selectAll" resultType="boardDTO" parameterType="hashmap">
+    <select id="selectAll" parameterType="hashmap" resultType="boardDTO">
         SELECT * FROM board
         INNER JOIN user
         ON board.writer_id = user.id
