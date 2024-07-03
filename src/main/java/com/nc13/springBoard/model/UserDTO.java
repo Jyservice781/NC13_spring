@@ -17,11 +17,11 @@ public class UserDTO implements UserDetails {
     private String role; //?
     private List<GrantedAuthority> authorities;
 
-
     // 직책설정 방법
     // 권한설정 방법
     @Override
     public List<GrantedAuthority> getAuthorities() {
+
         authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role));
         return authorities;

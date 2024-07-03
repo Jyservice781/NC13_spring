@@ -40,7 +40,7 @@ public class BoardController {
     }
 
     @GetMapping("showAll/{pageNo}")
-    public String showAll(Model model, @PathVariable int pageNo, HttpSession session) {
+    public String showAll(Model model, @PathVariable int pageNo) {
         //가장 마지막 페이지의 번호
         int maxPage = boardService.selectMaxPage();
         model.addAttribute("maxPage", maxPage);
