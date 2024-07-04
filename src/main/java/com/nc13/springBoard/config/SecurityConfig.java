@@ -25,7 +25,7 @@ public class SecurityConfig {
                  // WEB-INF 폴더 안의 Views 안의 모든 JSP 파일은 누구든 접근 가능
                  .requestMatchers("/WEB-INF/**").permitAll()
                  // images 폴더와 해당 폴더 안의 모든 파일은 누구든 접근 가능
-                 .requestMatchers("/images/**").permitAll()
+                 .requestMatchers("/uploads/**").permitAll()
                         // * - web-inf 안의 폴더 안의 직속 파일들만 가져옴
                         // ** - web-inf 안의 하위 폴더들과 그안의 파일들 까지 다 가져옴
                 // localhost:8080/user/.... 이거나 localhost:8080/ 은 누구든 접근 가능을 설정
