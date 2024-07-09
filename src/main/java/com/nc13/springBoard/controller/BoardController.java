@@ -145,11 +145,7 @@ public class BoardController {
     }
 
     @GetMapping("showOne/{id}")
-    public String showOne(HttpSession session, @PathVariable int id, Model model, RedirectAttributes redirectAttributes) {
-        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
-        if (logIn == null) {
-            return "redirect:/";
-        }
+    public String showOne(@PathVariable int id, Model model, RedirectAttributes redirectAttributes) {
 
         BoardDTO boardDTO = boardService.selectOne(id);
 
@@ -163,7 +159,7 @@ public class BoardController {
         model.addAttribute("boardDTO", boardDTO);
         model.addAttribute("replyList", replyList);
 
-        return "/board/showOne";
+        return "board/showOne";
     }
 
     @GetMapping("update/{id}")

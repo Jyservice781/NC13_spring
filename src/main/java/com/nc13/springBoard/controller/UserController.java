@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 // 전부 다 URL 이 로컬호스트 8080/user 하면 다 한곳으로 보내고 싶다.
 // requestMapping 으로 /user/ 라고 지정해줌
 @RequestMapping("/user/")
-@RequiredArgsConstructor
 public class UserController {
     // 실제 SQL 통신을 담당할 Service 객체
     @Autowired
@@ -36,7 +35,7 @@ public class UserController {
     // 또한, 해당 name 어트리뷰트를 가진 클래스 객체를 파라미터로 잡아주면
     // 자동으로 데이터가 바인딩 된다.
     public String auth(UserDTO userDTO, HttpSession session) {
-        System.out.println("userController.auth()");
+        // System.out.println("userController.auth()");
         // System.out.println("username: " + username + ", " + "password: " + password);
         // 위의 코드를 간략히
         UserDTO result = userService.auth(userDTO);

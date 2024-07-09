@@ -16,5 +16,4 @@ public class UserAuthService implements UserDetailsService {
 
         return userService.selectByUsername(username);
     }
-
 }

@@ -4,14 +4,37 @@ import com.nc13.springBoard.service.UserAuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    // 스프링 시큐리티를 사용할때 값을 복호화하기 위해서 사용되는 방법임.
+    // 스프링 시큐리티(Spring Security) 프레임워크에서 제공하는 클래스
+    // 중 하나로 비밀번호를 암호화하는 데 사용할 수 있는 메서드를 가진 클래스입니다.
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /*
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.httpFirewall(defaultHttpFirewall());
+    }
+
+    @Bean
+    public HttpFirewall defaultHttpFirewall(){
+        return new DefaultHttpFirewall();
+    }
+    */
+
     // 회원가입이나 로그인등 페이지의 용도에 따라서
     // 접근 제한을 설정
     // FilterChain -> 웹에서 요청이 오면 순차적으로 처리되는 경우가 많음.
@@ -34,6 +57,7 @@ public class SecurityConfig {
                  //만약 여러개를 설정하려면 .requestMatchers("/board/write").hasAnyRole("ADMIN", "USER")
                 // board/write 는 ADMIN 역할을 가진 사용자만 접근 가능
                 // 위의 경우가 아닌 모든 URL 은 로그인한 사용자만 접근 가능하다
+                // 왜 게시글 상세보기는 안됨??
                 .anyRequest().authenticated()
                 )
                 //-> anyRequest 의 기능이 모든 하위 링크들을 접근가능하게 하면서 에러를 나게 한다.
@@ -53,13 +77,5 @@ public class SecurityConfig {
                 .userDetailsService(userAuthService);
 
        return httpSecurity.build();
-    }
-
-    // 스프링 시큐리티를 사용할때 값을 복호화하기 위해서 사용되는 방법임.
-    // 스프링 시큐리티(Spring Security) 프레임워크에서 제공하는 클래스
-    // 중 하나로 비밀번호를 암호화하는 데 사용할 수 있는 메서드를 가진 클래스입니다.
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

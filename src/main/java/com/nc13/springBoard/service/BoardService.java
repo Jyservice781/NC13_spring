@@ -45,9 +45,7 @@ public class BoardService {
     }
 
     public void insert(BoardDTO boardDTO) {
-        System.out.println("insert전 boardDTO: " + boardDTO);
         session.insert(NAMESPACE + ".insert", boardDTO);
-        System.out.println("insert후 boardDTO: " + boardDTO);
     }
 
     public BoardDTO selectOne(int id) {
