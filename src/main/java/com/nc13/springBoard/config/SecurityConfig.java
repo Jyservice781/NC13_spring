@@ -24,6 +24,7 @@ public class SecurityConfig {
     }
 
     /*
+    malicious debug 방법
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.httpFirewall(defaultHttpFirewall());
