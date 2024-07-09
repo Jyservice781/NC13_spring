@@ -3,7 +3,6 @@ package com.nc13.springBoard.controller;
 import com.nc13.springBoard.model.UserDTO;
 import com.nc13.springBoard.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -62,8 +61,6 @@ public class UserController {
     @PostMapping("register")
     public String register(UserDTO userDTO, RedirectAttributes redirectAttributes) {
         // 이미 존재하는 경우 회원가입이 되면 안됨 . => !!!!!--json--!!!!! 형식으로 업그레이드 2
-
-
         if (userService.validateUsername(userDTO.getUsername())) {
             userDTO.setPassword(encoder.encode(userDTO.getPassword()));
             userService.register(userDTO);
